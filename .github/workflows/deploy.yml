@@ -50,6 +50,8 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "github-actions@noreply"
             git fetch origin main
+            git add -A
+            git commit -m "docker tag updated by GHA" || echo "No changes to commit"
             git pull --rebase origin main
             git push origin main
   
