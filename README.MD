@@ -1,13 +1,19 @@
-Project with EKS and ArgoCD
+# Project with EKS and ArgoCD
 Create the cluster with eksctl
+
 eksctl create cluster --name argocd-cluster --version 1.29 --region us-east-1 --nodegroup-name ng-1 --node-type t3.medium --nodes 2 --nodes-min 1 --nodes-max 3
 
 Install ArgoCD inside the cluster
+
 	- Create a seperate name space for ArgoCD
-	kubectl create namespace argocd
+```yaml
+		kubectl create namespace argocd
+```
 	- Install argocd
+```yaml
 	    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 	    kubectl get pods -n argocd
+```
 
 NB. by default Argocd is deployed in ClusterIP we need to change it in ALB to be able to access it aoutside the network
 
@@ -32,6 +38,24 @@ Troubleshhot
 
 Test the app is running: kubectl get svc
 Grab the ALB name and access it through your browser
+
+# Setup ArgoCD dashboard
+
+	- Login to ArgoCD with the Username and password
+
+	- Go to "New App" 
+
+	- Give it a name "gha-demo" - Project Name "default" -  Sync Policy "Automatic"
+
+	- Under "Source" provide your Repository URL "https://github.com/efritznel/my-project"
+
+	- Revision "main"
+
+	- Path "the path of your manifest files" Ex: k8s
+
+	- Cluster URL "Select the cluster where ArgoCD is running"
+
+	- Namespace "default"
 
 # What is YQ?
 
